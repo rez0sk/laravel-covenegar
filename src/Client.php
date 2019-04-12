@@ -6,7 +6,6 @@ namespace Kavenegar;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ServerException;
 use Kavenegar\Exceptions\KavenegarClientException;
 
 class Client
@@ -39,7 +38,7 @@ class Client
      * @param string $method
      * @param array $parameters
      *
-     * @return \stdClass
+     * @return array
      *
      * @throws KavenegarClientException
      */

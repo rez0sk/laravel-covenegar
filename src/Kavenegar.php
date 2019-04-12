@@ -39,7 +39,7 @@ class Kavenegar
      * @param string $message
      * @param array $options
      *
-     * @return \stdClass
+     * @return array
      *
      * @throws Exception
      */
@@ -47,7 +47,7 @@ class Kavenegar
     {
         if (is_string($receptor))
             $result =
-                $this->client->request('sms/sendarray.json', [
+                $this->client->request('sms/send.json', [
                     'receptor' => $receptor,
                     'message' => $message,
                     'sender' => Arr::get($options, 'sender'),
@@ -78,6 +78,30 @@ class Kavenegar
         return $result;
     }
 
+    /**
+     * Send lookup message.
+     *
+     * @param string $template
+     * @param string $receptor
+     * @param array $tokens
+     *
+     * @return array
+     * @throws Exceptions\KavenegarClientException
+     */
+    public function lookup(string $template, string $receptor, array $tokens)
+    {
+        if (count($tokens) > 3 || count($tokens) < 1)
+            throw new InvalidArgumentException("Invalid number of tokens provided. Expected at least 1 and at most 3 tokens.");
 
+        $result = $this->client
+            ->request('verify/lookup.json', [
+                'receptor' => $receptor,
+                'template' => $template,
+                'token1' => $tokens[0],
+                'token2' => Arr::get($tokens, 1),
+                'token3' => Arr::get($tokens, 2)
+            ]);
+        return $result;
+    }
 
 }

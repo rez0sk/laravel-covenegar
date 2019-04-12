@@ -4,6 +4,8 @@
 namespace Kavenegar\Tests;
 
 
+use Illuminate\Support\Arr;
+use InvalidArgumentException;
 use Kavenegar\Client;
 use Kavenegar\Kavenegar;
 use Mockery;
@@ -39,8 +41,8 @@ class KavenegarTest extends TestCase
     public function send_message($receptor, string $message, array $options = [])
     {
         $this->client
-            ->shouldReceive('request')
-            ->with('sms/sendarray.json', Mockery::subset([
+            ->expects()
+            ->request(Mockery::anyOf('sms/send.json', 'sms/sendarray.json'), Mockery::subset([
                 'receptor' => $receptor,
                 'message' => $message
             ]))
@@ -62,7 +64,9 @@ class KavenegarTest extends TestCase
     public function exception_on_send_array()
     {
         $this->expectException(\Exception::class);
-        $this->send_message(['123', '1234'], 'Hello!');
+        $kavenegar = new Kavenegar('xxxxx');
+        $result = $kavenegar->send(['123', '456'], 'Sorry!');
+        $this->assertIsArray($result);
     }
 
     /**
@@ -76,6 +80,51 @@ class KavenegarTest extends TestCase
     public function exception_on_invalid_receptor()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->send_message(123, 'Hello!');
+        $kavenegar = new Kavenegar('xxxxx');
+        $result = $kavenegar->send(123, 'Sorry!');
+    }
+
+    /**
+     * @test if it can send lookup messages
+     * @covers \Kavenegar\Kavenegar::lookup
+     *
+     * @param string $template
+     * @param string $receptor
+     * @param array $tokens
+     *
+     * @testWith ["template", "0963258741", ["password"]]
+     * @throws \Kavenegar\Exceptions\KavenegarClientException
+     */
+    public function lookup(string $template, string $receptor, array $tokens)
+    {
+        $this->client
+            ->shouldReceive('request')
+            ->with('verify/lookup.json', Mockery::subset([
+                'template' => $template,
+                'receptor' => $receptor,
+                'token1' => Arr::get($tokens, 0),
+                'token2' => Arr::get($tokens, 1),
+                'token3' => Arr::get($tokens, 2)
+            ]))
+            ->andReturns(['test']);
+        $kavenegar = new Kavenegar('xxxxx', $this->client);
+        $kavenegar->lookup($template, $receptor, $tokens);
+
+    }
+
+    /**
+     * @test If it throws exception when no token or more than three tokens provided.
+     * @covers \Kavenegar\Kavenegar::lookup
+     *
+     * @param array $tokens
+     * @testWith [ [] ]
+     *              [["t1", "t2", "t3", "t4"]]
+     *
+     * @throws \Kavenegar\Exceptions\KavenegarClientException
+     */
+    public function lookup_wrong_num_of_tokens(array $tokens)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->lookup('template', '123456789', $tokens);
     }
 }
