@@ -26,7 +26,7 @@ class Kavenegar
      */
     public function __construct(
         string $api_key = null,
-        Client $client = null
+        $client = null
     )
     {
         $this->client = $client ?? new Client($api_key);
@@ -43,7 +43,7 @@ class Kavenegar
      *
      * @throws Exception
      */
-    public function send($receptor, string $message, array $options)
+    public function send($receptor, string $message, array $options = [])
     {
         if (is_string($receptor))
             $result =

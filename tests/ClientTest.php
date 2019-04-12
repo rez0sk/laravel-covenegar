@@ -27,7 +27,7 @@ class ClientTest extends TestCase
 
     /**
      * @test if request method works appropriately with successful response
-     * @covers \Kaphp venegar\Client
+     * @covers \Kavenegar\Client::request
      *
      * @return void
      * @throws \Kavenegar\Exceptions\KavenegarClientException
