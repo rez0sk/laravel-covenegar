@@ -1,0 +1,36 @@
+{
+    "name": "rez0sk/laravel-kavenegar",
+    "description": "Laravel package for Kavenegar utilizing Notifications and Facades",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Reza Askari",
+            "email": "askari.reza@outlook.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.3@dev",
+        "illuminate/support": "~5.8.0|~5.9.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.9@dev",
+        "phpunit/phpunit": "^8.2@dev",
+        "mockery/mockery": "^1.0@dev",
+        "phpro/grumphp": "dev-master",
+        "laravel/homestead": "^4.0@dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Kavenegar\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kavenegar\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev"
+}

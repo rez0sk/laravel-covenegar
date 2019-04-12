@@ -1,0 +1,30 @@
+{
+  "return":
+  {
+    "status":200,
+    "message":"تایید شد"
+  },
+  "entries":
+  [
+    {
+      "messageid":8792343,
+      "message":"خدمات پیام کوتاه کاوه نگار",
+      "status":1,
+      "statustext":"در صف ارسال",
+      "sender":"10004346",
+      "receptor":"09125258596",
+      "date":1356619709,
+      "cost":120
+    },
+    {
+      "messageid":8792344,
+      "message":"خدمات پیام کوتاه کاوه نگار",
+      "status":1,
+      "statustext":"در صف ارسال",
+      "sender":"10004346",
+      "receptor":"09128585774",
+      "date":1356619709,
+      "cost":120
+    }
+  ]
+}
