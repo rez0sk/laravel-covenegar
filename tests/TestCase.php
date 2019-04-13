@@ -10,11 +10,11 @@ class TestCase extends BaseTestCase
     {
         return 'Kavenegar\KavenegarServiceProvider';
     }
+
     protected function getPackageAliases($app)
     {
         return [
-            'Kavenegar' => 'Kavenegar\Facades\Kavenegar'
+            'Kavenegar' => 'Kavenegar\Facades\Kavenegar',
         ];
     }
 }
-

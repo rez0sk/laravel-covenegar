@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Kavenegar\Tests;
-
 
 use Illuminate\Support\Arr;
 use InvalidArgumentException;
@@ -12,7 +10,6 @@ use Mockery;
 
 class KavenegarTest extends TestCase
 {
-
     private $client;
 
     /**
@@ -31,12 +28,11 @@ class KavenegarTest extends TestCase
      *
      * @param $receptor
      * @param string $message
+     * @param array  $options
      *
-     * @param array $options
      * @throws \Exception
      * @testWith ["09123456789", "Hello!"]
      *              [["0123", "1234", "4567"], "Hello!", {"sender": "123"} ]
-     *
      */
     public function send_message($receptor, string $message, array $options = [])
     {
@@ -44,13 +40,12 @@ class KavenegarTest extends TestCase
             ->expects()
             ->request(Mockery::anyOf('sms/send.json', 'sms/sendarray.json'), Mockery::subset([
                 'receptor' => $receptor,
-                'message' => $message
+                'message'  => $message,
             ]))
             ->andReturns(['test']);
         $kavenegar = new Kavenegar('xxxxx', $this->client);
         $result = $kavenegar->send($receptor, $message, $options);
         $this->assertIsArray($result);
-
     }
 
     /**
@@ -59,7 +54,6 @@ class KavenegarTest extends TestCase
      *
      * Given: Multi-receptor send request issued.
      * Then: Exception thrown.
-     *
      */
     public function exception_on_send_array()
     {
@@ -75,7 +69,6 @@ class KavenegarTest extends TestCase
      *
      * Given: Multi-receptor send request issued.
      * Then: Exception thrown.
-     *
      */
     public function exception_on_invalid_receptor()
     {
@@ -90,9 +83,10 @@ class KavenegarTest extends TestCase
      *
      * @param string $template
      * @param string $receptor
-     * @param array $tokens
+     * @param array  $tokens
      *
      * @testWith ["template", "0963258741", ["password"]]
+     *
      * @throws \Kavenegar\Exceptions\KavenegarClientException
      */
     public function lookup(string $template, string $receptor, array $tokens)
@@ -102,14 +96,13 @@ class KavenegarTest extends TestCase
             ->with('verify/lookup.json', Mockery::subset([
                 'template' => $template,
                 'receptor' => $receptor,
-                'token1' => Arr::get($tokens, 0),
-                'token2' => Arr::get($tokens, 1),
-                'token3' => Arr::get($tokens, 2)
+                'token1'   => Arr::get($tokens, 0),
+                'token2'   => Arr::get($tokens, 1),
+                'token3'   => Arr::get($tokens, 2),
             ]))
             ->andReturns(['test']);
         $kavenegar = new Kavenegar('xxxxx', $this->client);
         $kavenegar->lookup($template, $receptor, $tokens);
-
     }
 
     /**
