@@ -12,7 +12,8 @@
         "php": ">=7.2",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.3@dev",
-        "illuminate/support": "~5.8.0|~5.9.0"
+      "illuminate/support": "~5.8.0|~5.9.0",
+      "illuminate/notifications": "^5.9@dev"
     },
     "require-dev": {
         "orchestra/testbench": "^3.9@dev",
