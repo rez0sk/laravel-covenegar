@@ -11,6 +11,11 @@ use InvalidArgumentException;
 class Kavenegar
 {
 
+    const METHOD_SEND = 'sms/send.json';
+    const METHOD_SEND_ARRAY = 'sms/sendarray.json';
+    const METHOD_LOOKUP = 'verify/lookup.json';
+
+
     /**
      * Http Client.
      *
@@ -47,7 +52,7 @@ class Kavenegar
     {
         if (is_string($receptor))
             $result =
-                $this->client->request('sms/send.json', [
+                $this->client->request(self::METHOD_SEND, [
                     'receptor' => $receptor,
                     'message' => $message,
                     'sender' => Arr::get($options, 'sender'),
@@ -61,7 +66,7 @@ class Kavenegar
                 throw new Exception('Sender option (array) is required for sending message to multiple receptors.', 400);
 
             $result =
-                $this->client->request('sms/sendarray.json', [
+                $this->client->request(self::METHOD_SEND_ARRAY, [
                     'receptor' => $receptor,
                     'message' => $message,
                     'sender' => $options['sender'],
@@ -94,7 +99,7 @@ class Kavenegar
             throw new InvalidArgumentException("Invalid number of tokens provided. Expected at least 1 and at most 3 tokens.");
 
         $result = $this->client
-            ->request('verify/lookup.json', [
+            ->request(self::METHOD_LOOKUP, [
                 'receptor' => $receptor,
                 'template' => $template,
                 'token1' => $tokens[0],
