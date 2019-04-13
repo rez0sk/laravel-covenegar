@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Kavenegar;
-
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +16,7 @@ class KavenegarServiceProvider extends ServiceProvider
     {
         //
     }
+
     /**
      * Register the service provider.
      *
@@ -25,7 +24,7 @@ class KavenegarServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('kavenegar', function() {
+        $this->app->singleton('kavenegar', function () {
             return new Kavenegar(Config::get('services.kavenegar.api_key'));
         });
     }

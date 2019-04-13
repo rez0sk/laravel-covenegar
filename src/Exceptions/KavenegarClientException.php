@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Kavenegar\Exceptions;
-
 
 use Exception;
 use GuzzleHttp\Exception\ClientException;

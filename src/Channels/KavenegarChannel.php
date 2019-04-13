@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Kavenegar\Channels;
-
 
 use Illuminate\Notifications\Notification;
 use Kavenegar\Facades\Kavenegar;
@@ -12,7 +10,7 @@ class KavenegarChannel
     /**
      * Send the given notification.
      *
-     * @param mixed $notifiable
+     * @param mixed                                  $notifiable
      * @param \Illuminate\Notifications\Notification $notification
      *
      * @return void
@@ -42,9 +40,10 @@ class KavenegarChannel
      */
     public function detectType(Notification $notification)
     {
-        if (method_exists($notification, 'getLookupTemplate'))
+        if (method_exists($notification, 'getLookupTemplate')) {
             return 'lookup';
-        else
+        } else {
             return 'message';
+        }
     }
 }
